@@ -84,4 +84,6 @@
 
 - (id)initWithFrame:(CGRect)frame complexPin:(BOOL)complexPin;
 
+- (void)setBlurEnabled:(BOOL)isBlurEnabled;
+
 @end
