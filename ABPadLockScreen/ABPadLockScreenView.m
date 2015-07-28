@@ -362,6 +362,7 @@
             }
         }
     } else {
+        [self insertSubview:_backgroundView belowSubview:_contentView];
         [_backgroundView setFrame:self.bounds];
         [_backgroundView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     }
