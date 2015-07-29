@@ -49,7 +49,7 @@
         
         _selectedView = ({
             UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
-            view.alpha = 0.0f;
+            view.alpha = 1.0f;
             view.backgroundColor = _selectedColor;
             view;
         });
@@ -97,16 +97,21 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated completion:(void (^)(BOOL finished))completion
 {
     CGFloat length = (animated) ? animationLength : 0.0f;
-    CGFloat alpha = (selected) ? 1.0f : 0.0f;
-    
+
+    UIColor *color = selected ? [UIColor colorWithRed:0.243f
+                                                green:0.784f
+                                                 blue:0.561f
+                                                alpha:1.0f] : [UIColor whiteColor];
+
     [UIView animateWithDuration:length delay:0.0f options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
-                         self.selectedView.alpha = alpha;
+                         self.selectedView.backgroundColor = color;
+                         self.layer.borderColor = color.CGColor;
                      }
                      completion:completion];
 }
 
 @end
 
-CGFloat const ABPinSelectionViewWidth = 10;
-CGFloat const ABPinSelectionViewHeight = 10;
+CGFloat const ABPinSelectionViewWidth = 47.0f;
+CGFloat const ABPinSelectionViewHeight = 47.0f;
