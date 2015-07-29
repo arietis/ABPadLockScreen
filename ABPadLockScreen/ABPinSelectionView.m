@@ -21,17 +21,12 @@
 // THE SOFTWARE.
 
 #import "ABPinSelectionView.h"
-#import <QuartzCore/QuartzCore.h>
 
 #define animationLength 0.15
 
 @interface ABPinSelectionView()
 
-@property (nonatomic, strong) UIView *selectedView;
-
 - (void)setDefaultStyles;
-- (void)prepareApperance;
-- (void)performLayout;
 
 @end
 
@@ -45,31 +40,8 @@
     if (self)
     {
         [self setDefaultStyles];
-        self.layer.borderWidth = 1.5f;
-        
-        _selectedView = ({
-            UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
-            view.alpha = 1.0f;
-            view.backgroundColor = _selectedColor;
-            view;
-        });
     }
     return self;
-}
-
-#pragma mark -
-#pragma mark - Lifecycle Methods
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    [self performLayout];
-    [self prepareApperance];
-}
-
-- (void)drawRect:(CGRect)rect
-{
-    [super drawRect:rect];
-    [self prepareApperance];
 }
 
 #pragma mark -
@@ -79,36 +51,17 @@
     _selectedColor = [UIColor whiteColor];
 }
 
-- (void)prepareApperance
-{
-    self.selectedView.backgroundColor = self.selectedColor;
-    self.layer.borderColor = [self.selectedColor CGColor];
-    self.backgroundColor = [UIColor clearColor];
-}
-
-- (void)performLayout
-{
-    self.selectedView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
-    [self addSubview:self.selectedView];
-}
-
 #pragma mark -
 #pragma mark - Appearnce Methods
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated completion:(void (^)(BOOL finished))completion
 {
-    CGFloat length = (animated) ? animationLength : 0.0f;
+    NSTimeInterval length = animated ? animationLength : 0.0;
 
-    UIColor *color = selected ? [UIColor colorWithRed:0.243f
-                                                green:0.784f
-                                                 blue:0.561f
-                                                alpha:1.0f] : [UIColor whiteColor];
+    UIColor *color = selected ? self.selectedColor : [UIColor whiteColor];
 
-    [UIView animateWithDuration:length delay:0.0f options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         self.selectedView.backgroundColor = color;
-                         self.layer.borderColor = color.CGColor;
-                     }
-                     completion:completion];
+    [UIView animateWithDuration:length delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        self.backgroundColor = color;
+    } completion:completion];
 }
 
 @end
